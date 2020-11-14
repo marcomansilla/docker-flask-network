@@ -23,6 +23,17 @@ services:
     networks:
       - micronet
     restart: always
+  app3:
+    build: .
+    volumes:
+      - ./app3:/app
+    ports:
+      - 5002:5002
+    depends_on:
+      - app1
+    networks:
+      - micronet
+    restart: always
   db:
     image: mongo:4.2
     volumes:
@@ -31,8 +42,8 @@ services:
       - 27027:27017
     restart: always
     environment:
-      MONGO_INITDB_ROOT_USERNAME: macowens
-      MONGO_INITDB_ROOT_PASSWORD: macadmin123
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin
     networks:
       - micronet
 
