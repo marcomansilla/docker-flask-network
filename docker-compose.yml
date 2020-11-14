@@ -1,0 +1,41 @@
+version: '3.7'
+
+services:
+  app1:
+    build: .
+    volumes:
+      - ./app1:/app
+    ports:
+      - 5000:5000
+    depends_on:
+      - db
+    networks:
+      - micronet
+    restart: always
+  app2:
+    build: .
+    volumes:
+      - ./app2:/app
+    ports:
+      - 5001:5001
+    depends_on:
+      - app1
+    networks:
+      - micronet
+    restart: always
+  db:
+    image: mongo:4.2
+    volumes:
+      - ./data:/data/db
+    ports:
+      - 27027:27017
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: macowens
+      MONGO_INITDB_ROOT_PASSWORD: macadmin123
+    networks:
+      - micronet
+
+networks:
+  micronet:
+    driver: "bridge"
